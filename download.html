@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Download Image - PicJK</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: sans-serif; background: #f9f9f9; padding: 20px; text-align: center; }
+    img { max-width: 90%; border-radius: 10px; margin: 20px 0; }
+    .btn { padding: 10px 15px; margin: 10px; background: #009688; color: white; border: none; border-radius: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Download Image</h2>
+  <img id="imgPreview" src="" alt="Image">
+  <br>
+  <button class="btn" onclick="downloadImage()">Download</button>
+  <button class="btn" onclick="shareImage()">Share</button>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const imageUrl = urlParams.get('src');
+    const imgTag = document.getElementById('imgPreview');
+    imgTag.src = imageUrl;
+
+    function downloadImage() {
+      const link = document.createElement('a');
+      link.href = imageUrl;
+      link.download = 'picjk-image.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      alert('Downloaded as PNG');
+    }
+
+    function shareImage() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'PicJK Image',
+          text: 'Check out this image!',
+          url: imageUrl
+        });
+      } else {
+        alert('Share not supported. Copy the link:\n' + imageUrl);
+      }
+    }
+  </script>
+</body>
+</html>
